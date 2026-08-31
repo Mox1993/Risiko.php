@@ -1,0 +1,391 @@
+/* ------------------------------------------------------------------
+   Weltenteiler - Gestaltung
+   Zustaende der Karte sind reine CSS-Klassen; das JavaScript setzt nur
+   .gewaehlt und .ziel, den Rest macht der Stil hier.
+   ------------------------------------------------------------------ */
+
+:root {
+    --papier:      #f6f0e4;
+    --papier-tief: #ece2cf;
+    --tinte:       #2f2820;
+    --tinte-blass: #6d6152;
+    --linie:       #d6c9ae;
+    --ozean:       #aecbdc;
+    --akzent:      #8c4b2f;
+    --akzent-hell: #b46a48;
+    --gut:         #2f6d4f;
+    --warn:        #9a6b12;
+    --schlecht:    #9d3626;
+    --radius:      6px;
+    --schatten:    0 1px 2px rgba(47, 40, 32, .12), 0 6px 18px rgba(47, 40, 32, .08);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --papier:      #1f1c18;
+        --papier-tief: #17150f;
+        --tinte:       #ece4d6;
+        --tinte-blass: #a99c88;
+        --linie:       #3a342a;
+        --ozean:       #24404f;
+        --akzent:      #c9784f;
+        --akzent-hell: #e0916a;
+        --gut:         #67b58c;
+        --warn:        #d9ab52;
+        --schlecht:    #e08072;
+        --schatten:    0 1px 2px rgba(0, 0, 0, .5), 0 6px 18px rgba(0, 0, 0, .35);
+    }
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--papier-tief);
+    color: var(--tinte);
+    font: 16px/1.55 "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+
+a { color: var(--akzent); }
+a:hover { color: var(--akzent-hell); }
+
+/* --- Kopf und Fuss ------------------------------------------------- */
+
+.kopf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .7rem 1.2rem;
+    background: var(--papier);
+    border-bottom: 1px solid var(--linie);
+}
+
+.marke {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-decoration: none;
+    color: var(--tinte);
+}
+
+.kopf-rechts {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+}
+
+.wer { color: var(--tinte-blass); }
+
+.fuss {
+    padding: 1.5rem 1.2rem 2.5rem;
+    color: var(--tinte-blass);
+    font-size: .85rem;
+    text-align: center;
+}
+
+main { padding: 1.2rem; }
+
+/* --- Meldungen ----------------------------------------------------- */
+
+.meldungen {
+    max-width: 60rem;
+    margin: 1rem auto 0;
+    padding: 0 1.2rem;
+}
+
+.meldung {
+    margin: 0 0 .5rem;
+    padding: .6rem .9rem;
+    border-left: 4px solid var(--tinte-blass);
+    border-radius: var(--radius);
+    background: var(--papier);
+}
+
+.meldung.error  { border-color: var(--schlecht); }
+.meldung.warn   { border-color: var(--warn); }
+.meldung.info   { border-color: var(--gut); }
+.meldung.battle { border-color: var(--akzent); font-variant-numeric: tabular-nums; }
+
+/* --- Blaetter und Formulare ---------------------------------------- */
+
+.karte-blatt {
+    background: var(--papier);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius);
+    box-shadow: var(--schatten);
+    padding: 1.2rem 1.4rem 1.5rem;
+}
+
+.schmal-blatt {
+    max-width: 32rem;
+    margin: 2rem auto;
+}
+
+h1 { font-size: 1.35rem; margin: 0 0 .8rem; }
+h2 { font-size: 1rem; margin: 0 0 .6rem; letter-spacing: .04em; text-transform: uppercase;
+     color: var(--tinte-blass); }
+
+.formular { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .9rem; }
+.formular label { font-size: .85rem; color: var(--tinte-blass); margin-top: .5rem; }
+
+input[type=text], input[type=password], input[type=number], select {
+    font: inherit;
+    padding: .45rem .6rem;
+    color: var(--tinte);
+    background: var(--papier-tief);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius);
+}
+
+input:focus, select:focus, button:focus-visible {
+    outline: 2px solid var(--akzent);
+    outline-offset: 1px;
+}
+
+.knopf {
+    display: inline-block;
+    font: inherit;
+    padding: .5rem 1rem;
+    margin-top: .6rem;
+    color: var(--tinte);
+    background: var(--papier-tief);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.knopf:hover:not(:disabled) { background: var(--linie); }
+.knopf:disabled { opacity: .45; cursor: not-allowed; }
+.knopf.haupt { background: var(--akzent); border-color: var(--akzent); color: #fff; }
+.knopf.haupt:hover:not(:disabled) { background: var(--akzent-hell); border-color: var(--akzent-hell); }
+.knopf.schmal { padding: .3rem .7rem; font-size: .85rem; margin-top: 0; }
+
+.knopfreihe { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.knopfreihe form { margin: 0; }
+
+.hinweis { color: var(--tinte-blass); font-size: .9rem; }
+.warnung { color: var(--schlecht); font-weight: 700; }
+
+fieldset.modus { border: 1px solid var(--linie); border-radius: var(--radius); padding: .6rem .8rem; margin: .8rem 0 0; }
+fieldset.modus legend { font-size: .85rem; color: var(--tinte-blass); padding: 0 .3rem; }
+.wahl { display: flex; gap: .6rem; align-items: flex-start; margin: .4rem 0; cursor: pointer; }
+.wahl span { display: block; font-size: .9rem; color: var(--tinte-blass); }
+.wahl strong { display: block; color: var(--tinte); font-size: 1rem; }
+
+.nur-offen, .nur-hotseat { display: flex; flex-direction: column; gap: .35rem; margin-top: .7rem; }
+.nur-offen label { font-size: .85rem; color: var(--tinte-blass); }
+.nur-hotseat input { width: 100%; }
+
+/* --- Lobby --------------------------------------------------------- */
+
+.lobby {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1.2rem;
+    max-width: 76rem;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.partienliste { list-style: none; margin: 0; padding: 0; }
+
+.partienliste li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    padding: .6rem 0;
+    border-bottom: 1px solid var(--linie);
+}
+
+.partienliste li:last-child { border-bottom: 0; }
+.partienliste a { text-decoration: none; color: inherit; flex: 1; }
+.partie-name { display: block; font-weight: 700; }
+.partie-zeile { display: block; font-size: .85rem; color: var(--tinte-blass); }
+
+.marke-dran {
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #fff;
+    background: var(--akzent);
+    padding: .15rem .5rem;
+    border-radius: 999px;
+}
+
+/* --- Spielerliste -------------------------------------------------- */
+
+.spielerliste { list-style: none; margin: 0; padding: 0; }
+
+.spielerliste li {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    padding: .3rem 0;
+    flex-wrap: wrap;
+}
+
+.spielerliste li.aktiv .spielername { font-weight: 700; }
+.spielerliste li.aktiv { background: var(--papier-tief); border-radius: var(--radius); padding-left: .4rem; }
+.spielerliste li.raus { opacity: .45; text-decoration: line-through; }
+.spielerliste em { font-size: .8rem; color: var(--tinte-blass); }
+
+.farbfleck {
+    width: .8rem;
+    height: .8rem;
+    border-radius: 50%;
+    background: var(--farbe, #888);
+    border: 1px solid rgba(0, 0, 0, .25);
+    flex: none;
+    align-self: center;
+}
+
+.zahlen { font-size: .8rem; color: var(--tinte-blass); width: 100%; padding-left: 1.3rem; }
+
+/* --- Spielansicht -------------------------------------------------- */
+
+.spiel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    gap: 1.2rem;
+    max-width: 96rem;
+    margin: 0 auto;
+    align-items: start;
+}
+
+@media (max-width: 62rem) {
+    .spiel { grid-template-columns: 1fr; }
+    .kartenbereich { position: static; }
+}
+
+.kartenbereich {
+    position: sticky;
+    top: 1rem;
+    background: var(--papier);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius);
+    box-shadow: var(--schatten);
+    padding: .5rem;
+    overflow-x: auto;
+}
+
+.weltkarte { display: block; width: 100%; height: auto; min-width: 44rem; }
+.ozean { fill: var(--ozean); }
+
+.seewege line {
+    stroke: #6d8ba5;
+    stroke-width: 1.6;
+    stroke-dasharray: 6 5;
+    opacity: .8;
+}
+
+.gebiet {
+    fill: var(--besitz, #8a8a8a);
+    stroke: #2f2820;
+    stroke-width: 1.4;
+    transition: filter .12s ease;
+}
+
+.gebiet.mein  { stroke-width: 2.2; }
+.gebiet:hover { filter: brightness(1.12); cursor: pointer; }
+
+.gebiet.ziel {
+    stroke: #fff;
+    stroke-width: 2.6;
+    stroke-dasharray: 5 4;
+}
+
+.gebiet.gewaehlt {
+    stroke: #fffbe8;
+    stroke-width: 3.4;
+    filter: brightness(1.2);
+}
+
+.beschriftung { pointer-events: none; }
+
+.kontinent {
+    font: bold 15px/1 system-ui, sans-serif;
+    fill: var(--tinte-blass);
+    text-anchor: middle;
+    letter-spacing: 2px;
+    opacity: .8;
+}
+
+.armeen {
+    font: bold 15px/1 system-ui, sans-serif;
+    fill: #fff;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    paint-order: stroke;
+    stroke: rgba(0, 0, 0, .65);
+    stroke-width: 3px;
+}
+
+/* --- Seitenleiste -------------------------------------------------- */
+
+.seitenleiste { display: flex; flex-direction: column; gap: 1rem; }
+
+.block {
+    background: var(--papier);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius);
+    box-shadow: var(--schatten);
+    padding: .9rem 1.1rem 1.1rem;
+}
+
+.block.aktion { border-left: 3px solid var(--akzent); }
+
+.rundenzeile { margin: 0 0 .4rem; color: var(--tinte-blass); }
+.dranzeile  { margin: 0; font-weight: 700; color: var(--gut); }
+.wartezeile { margin: 0; color: var(--tinte-blass); }
+.sieg       { margin: 0; font-weight: 700; color: var(--akzent); font-size: 1.05rem; }
+.vorrat     { margin: 0 0 .5rem; }
+.vorrat strong { font-size: 1.2rem; }
+
+h2 .zaehler {
+    float: right;
+    background: var(--papier-tief);
+    border-radius: 999px;
+    padding: 0 .5rem;
+    font-size: .8rem;
+}
+
+.kartenhand { list-style: none; margin: 0 0 .4rem; padding: 0; }
+.kartenhand li { border-bottom: 1px solid var(--linie); }
+.kartenhand li:last-child { border-bottom: 0; }
+
+.kartenhand label,
+.kartenhand.still li {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .35rem 0;
+    cursor: pointer;
+}
+
+.kartenhand.still li { cursor: default; }
+.symbol { font-size: 1.2rem; width: 1.4rem; text-align: center; }
+.kartentext { font-size: .9rem; }
+.kartentext em { color: var(--tinte-blass); font-size: .8rem; margin-left: .3rem; }
+
+.bericht {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 22rem;
+    overflow-y: auto;
+    font-size: .85rem;
+}
+
+.bericht li {
+    display: flex;
+    gap: .45rem;
+    align-items: baseline;
+    padding: .3rem 0;
+    border-bottom: 1px solid var(--linie);
+    color: var(--tinte-blass);
+}
+
+.bericht li:last-child { border-bottom: 0; }
