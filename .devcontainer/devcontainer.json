@@ -1,0 +1,31 @@
+{
+  "name": "PHP + MariaDB",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+
+  "forwardPorts": [8000, 3306],
+  "portsAttributes": {
+    "8000": {
+      "label": "PHP App (built-in server)",
+      "onAutoForward": "openBrowser"
+    },
+    "3306": {
+      "label": "MariaDB"
+    }
+  },
+
+  "postCreateCommand": "composer install --no-interaction || true",
+  "postStartCommand": "bash .devcontainer/start-server.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug"
+      ]
+    }
+  },
+
+  "remoteUser": "vscode"
+}
